@@ -19,7 +19,7 @@ class TravelPackageService
     function neshanService(): void
     {
         $response = Http::withHeaders([
-            'Api-Key' => 'service.515c4e65c6284d9bb3c7a5120c03f960',  // توکن خود را وارد کنید
+            'Api-Key' => 'service.515c4e65c6284d9bb3c7a5120c03f960',
         ])->get('https://api.neshan.org/v5/reverse', [
             'lat' => 36.2605,
             'lng' => 59.6168

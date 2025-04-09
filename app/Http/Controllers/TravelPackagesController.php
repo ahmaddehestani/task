@@ -29,7 +29,7 @@ class TravelPackagesController extends BaseApiController
     public function store(StoreTravelPackagesRequest $request)
     {
         $model=$this->service->store($request->validated());
-        return $this->successResponse(TravelPackagesResource::make($model));
+        return $this->successResponse(TravelPackagesResource::make($model),'store success');
     }
 
     /**
@@ -54,5 +54,11 @@ class TravelPackagesController extends BaseApiController
     public function destroy(Package $package)
     {
         //
+    }
+
+    public function getDetails(): \Illuminate\Http\JsonResponse
+    {
+        $this->service->neshanService();
+        return $this->successResponse([],'file create');
     }
 }

@@ -6,4 +6,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('package', TravelPackagesController::class);
 Route::apiResource('booking', BookingsController::class);
-//Route::get()
+Route::get('get-location-details', [TravelPackagesController::class, 'getDetails']);

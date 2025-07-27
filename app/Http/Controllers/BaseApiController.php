@@ -14,13 +14,6 @@ class BaseApiController extends Controller
         ], $statusCode);
     }
 
-    public function errorResponse($errorMessages = '', $statusCode = 400): JsonResponse
-    {
-        return response()->json([
-            'message' => $errorMessages,
-        ], $statusCode);
-    }
-
     public function resultWithAdditional($data = [], string $message = null, $status = 200, $additional = []): JsonResponse
     {
         return $data->additional(array_merge([

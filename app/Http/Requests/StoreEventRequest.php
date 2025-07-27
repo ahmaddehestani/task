@@ -4,9 +4,15 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBookingsRequest extends FormRequest
+class StoreEventRequest extends FormRequest
 {
-
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return false;
+    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -16,10 +22,7 @@ class StoreBookingsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'package_id'=>['required','exists:packages,id'],
-            'customer_name'=>['required','string','max:255'],
-            'customer_email'=>['required','email'],
-            'travel_date'=>['required','date'],
+            //
         ];
     }
 }

@@ -10,7 +10,10 @@ class Event extends Model
     protected $fillable = [
         'user_id',
         'event_name',
-        'payload'
+        'payload',
+        'ip_address',
+        'user_agent',
+        'platform'
     ];
     protected $casts = [
         'payload' => 'array',

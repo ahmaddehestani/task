@@ -4,7 +4,7 @@ namespace App\Actions\Event;
 
 
 use App\Models\Event;
-use App\Repositories\Wagon\EventRepositoryInterface;
+use App\Repositories\Event\EventRepositoryInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -20,7 +20,7 @@ class UpdateEventAction
 
     /**
      * @param Event $model
-     * @param array{name:string,mobile:string,email:string} $payload
+     * @param array{event_name:string,payload:array} $payload
      * @return Event
      */
     public function handle(Event $model, array $payload): Event

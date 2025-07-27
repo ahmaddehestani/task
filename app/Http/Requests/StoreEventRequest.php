@@ -16,7 +16,7 @@ class StoreEventRequest extends FormRequest
     {
         return [
             'event_name' => 'required|string|max:255',
-            'payload' => 'required|array'
+            'payload' => 'nullable|array'
         ];
     }
 }

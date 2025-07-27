@@ -4,7 +4,7 @@ namespace App\Actions\Event;
 
 
 use App\Models\Event;
-use App\Repositories\Wagon\EventRepositoryInterface;
+use App\Repositories\Event\EventRepositoryInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -21,7 +21,7 @@ class StoreEventAction
     {
         return DB::transaction(function () use ($payload) {
 
-            $model = $this->repository->store($payload);
+            $model = $this->repository->create($payload);
             cache::forget('events');
             return $model->fresh();
         });

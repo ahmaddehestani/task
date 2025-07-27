@@ -25,7 +25,7 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
     public function query(array $payload = []): Builder|QueryBuilder
     {
         return QueryBuilder::for(Event::query())
-            ->with([])
+            ->with(['user'])
             ->defaultSort('-id')
             ->allowedFilters([
                 AllowedFilter::custom('a_search', new AdvanceFilter)->default(Arr::get($payload, 'a_search', []))->nullable(false),

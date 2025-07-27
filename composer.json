@@ -11,6 +11,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "shopid/zarinpal": "^1.0",
+        "spatie/laravel-query-builder": "^6.3",
         "lorisleiva/laravel-actions": "*",
         "predis/predis": "^2.2"
     },

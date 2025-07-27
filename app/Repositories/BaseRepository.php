@@ -1,116 +1,72 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Repositories;
 
-use App\Enums\BooleanEnum;
-use App\Helpers\Constants;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\QueryBuilder\QueryBuilder;
 
+
 class BaseRepository implements BaseRepositoryInterface
 {
-    public function __construct(public Model $model) {}
-    
+    public function __construct(public Model $model)
+    {
+    }
+
     public function query(array $payload = []): Builder|QueryBuilder
     {
         return $this->model->query();
     }
-    
-    public function paginate(?int $limit = null, array $payload = []): LengthAwarePaginator|Collection|array
+
+    public function paginate($limit = 15, array $payload = [])
     {
-        if ($limit === null) {
-            $limit = request()->input('page_limit', Constants::DEFAULT_PAGINATE);
+//        if ($limit == null) {
+//            $limit = 15;
+//        }
+        if ($limit===-1){
+            return $this->all($payload);
         }
-        
-        if ((int) $limit === -1) {
-            return $this->query($payload)->get();
-        }
-        
         return $this->query($payload)->paginate($limit);
     }
-    
-    public function get(array $payload = [], ?int $limit = null): Collection
+
+    public function all(array $payload = [])
     {
-        $q = $this->query($payload);
-        if ($limit) {
-            $q->limit($limit);
-        }
-        
-        return $q->get();
+        return $this->query($payload)->get();
     }
-    
-    public function store(array $payload)
+
+    public function create(array $payload): Model
     {
         return $this->model->create($payload);
     }
-    
-    public function update($eloquent, array $payload)
+
+    public function update($eloquent, array $payload): Model
     {
         $eloquent->update($payload);
-        
         return $eloquent;
     }
-    
-    public function delete($eloquent, bool $force = false): bool
-    {
-        if (is_int($eloquent)){
-            $eloquent = $this->find($eloquent);
-        }
-        if ($force) {
-            return $eloquent->forceDelete();
-        }
 
+    public function delete($eloquent): bool
+    {
         return $eloquent->delete();
     }
-    
-    public function find(mixed $value, string $field = 'id', array $selected = ['*'], bool $firstOrFail = false, array $with = [])
+
+    public function find(mixed $value, string $filed = 'id', array $selected = ['*'], bool $firstOrFail = false, array $with = []): ?Model
     {
-        $model = $this->getModel()->with($with)->select($selected)->where($field, $value);
-        
+        $model = $this->getModel()->with($with)->select($selected)->where($filed, $value);
+
         if ($firstOrFail) {
             return $model->firstOrFail();
         }
-        
-        return $model->first();
-    }
 
-    public function findMany(array $values, string $field = 'id', array $selected = ['*'], array $with = []): Collection|array
-    {
-        return $this->getModel()->with($with)->select($selected)->whereIn($field, $values)->get();
+        return $model->first();
     }
 
     public function getModel(): Model
     {
         return $this->model;
     }
-    
-    public function toggle($model, string $field = 'published')
-    {
-        if (is_int($model)){
-            $model = $this->find($model);
-        }
-        if ($model[$field] instanceof BooleanEnum) {
-            $model[$field] = ! $model[$field]->value;
-        } else {
-            $model[$field] = ! $model[$field];
-        }
-        $model->save();
-        
-        return $model;
-    }
-    
-    public function updateOrCreate(array $conditions = [], array $data=[])
+    public function updateOrCreate(array $data, array $conditions = [])
     {
         return $this->model->updateOrCreate($conditions, $data);
-    }
-    
-    public function data(array $payload = []): array
-    {
-        return [];
     }
 }

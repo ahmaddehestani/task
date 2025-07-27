@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\BookingsController;
-use App\Http\Controllers\TravelPackagesController;
+
+use App\Http\Controllers\V1\EventController;
 use Illuminate\Support\Facades\Route;
 
-Route::apiResource('package', TravelPackagesController::class);
-Route::apiResource('booking', BookingsController::class);
-Route::get('get-location-details', [TravelPackagesController::class, 'getDetails']);
+Route::prefix('v1')->group(function () {
+    Route::post('event', [EventController::class, 'store']);
+    Route::get('event', [EventController::class, 'index']);
+});

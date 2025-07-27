@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories\Wagon;
+namespace App\Repositories\Event;
 
+use App\Models\Event;
 use App\Repositories\BaseRepositoryInterface;
-use App\Models\Wagon;
 
 interface EventRepositoryInterface extends BaseRepositoryInterface
 {
-    public function getModel(): Wagon;
+    public function getModel(): Event;
 }

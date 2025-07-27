@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Repositories\Wagon;
+namespace App\Repositories\Event;
 
-use App\Enums\UserTypeEnum;
-use App\Filters\FuzzyFilter;
-use App\Models\Wagon;
+
+use App\Models\Event;
 use App\Repositories\BaseRepository;
 use App\Services\AdvancedSearchFields\AdvanceFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,33 +13,21 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class EventRepository extends BaseRepository implements EventRepositoryInterface
 {
-    public function __construct(Wagon $model)
+    public function __construct(Event $model)
     {
         parent::__construct($model);
     }
 
-   public function getModel(): Wagon
+   public function getModel(): Event
    {
        return parent::getModel();
    }
     public function query(array $payload = []): Builder|QueryBuilder
     {
-        $user=auth()->user();
-        if($user->type->value===UserTypeEnum::ADMIN->value){
-            return QueryBuilder::for(Wagon::query())
-                ->with([])
-                ->defaultSort('-id')
-                ->allowedFilters([
-                    AllowedFilter::custom('search', new FuzzyFilter())->default(Arr::get($payload, 'search'))->nullable(false),
-                AllowedFilter::custom('a_search', new AdvanceFilter)->default(Arr::get($payload, 'a_search', []))->nullable(false),
-                ]);
-        }
-        return QueryBuilder::for(Wagon::query())
+        return QueryBuilder::for(Event::query())
             ->with([])
             ->defaultSort('-id')
-            ->where('user_id', $user->id)
             ->allowedFilters([
-                AllowedFilter::custom('search', new FuzzyFilter())->default(Arr::get($payload, 'search'))->nullable(false),
                 AllowedFilter::custom('a_search', new AdvanceFilter)->default(Arr::get($payload, 'a_search', []))->nullable(false),
             ]);
     }

@@ -15,7 +15,7 @@ class EventHandler extends BaseHandler
     {
 
         return [
-            $this->add("user.name", trans('advance_search.wallet.code'), self::INPUT),
+            $this->add("user.name", trans('general.advance_search.user_name'), self::INPUT),
 
         ];
     }

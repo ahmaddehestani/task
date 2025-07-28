@@ -38,7 +38,7 @@ class EventController extends BaseApiController
     public function store(StoreEventRequest $request)
     {
         $event=StoreEventAction::run($request->validated());
-        return $this->successResponse(EventResource::make($event));
+        return $this->successResponse(EventResource::make($event),trans('general.store'),201);
     }
 
     /**

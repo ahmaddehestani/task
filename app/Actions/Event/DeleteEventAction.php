@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Actions\Airport;
+namespace App\Actions\Event;
 
-use App\Models\Airport;
-use App\Repositories\Airport\AirportRepositoryInterface;
+
+use App\Models\Event;
+use App\Repositories\Event\EventRepositoryInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -12,17 +13,17 @@ class DeleteEventAction
 {
     use AsAction;
 
-    public function __construct(public readonly AirportRepositoryInterface $repository)
+    public function __construct(private readonly EventRepositoryInterface $repository,)
     {
     }
 
-    public function handle(Airport $airport): bool
+    public function handle(Event $event): bool
     {
-        return DB::transaction(function () use ($airport) {
+        return DB::transaction(function () use ($event) {
             // todo check don't use in other table
-            $airport->translations()->delete();
-            cache::forget('airports');
-            return $this->repository->delete($airport);
+
+            cache::forget('events');
+            return $this->repository->delete($event);
         });
     }
 }

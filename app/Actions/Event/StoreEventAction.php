@@ -4,6 +4,7 @@ namespace App\Actions\Event;
 
 
 use App\Models\Event;
+use App\Models\User;
 use App\Repositories\Event\EventRepositoryInterface;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -14,7 +15,9 @@ class StoreEventAction
 {
     use AsAction;
 
-    public function __construct(private readonly EventRepositoryInterface $repository)
+    public function __construct(
+        private readonly EventRepositoryInterface $repository,
+    )
     {
     }
 
@@ -25,8 +28,8 @@ class StoreEventAction
             $ipAddress = request()->ip();
             $platform = $this->detectPlatform($userAgent);
             $model = $this->repository->create([
-                'user_id'=>auth()->user()->id,
-                'event_name'=>Arr::get($payload,'payload'),
+                'user_id'=>auth()->user()->id??User::query()->first()->id,
+                'event_name'=>Arr::get($payload,'event_name'),
                 'payload'=>Arr::get($payload,'payload',[]),
                 'ip_address'=>$ipAddress,
                 'user_agent'=>$userAgent,

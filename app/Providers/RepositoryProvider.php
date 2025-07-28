@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use App\Repositories\Wagon\EventRepository;
-use App\Repositories\Wagon\EventRepositoryInterface;
+
+use App\Repositories\Event\EventRepository;
+use App\Repositories\Event\EventRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryProvider extends ServiceProvider

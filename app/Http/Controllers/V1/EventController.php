@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Actions\Event\StoreEventAction;
 use App\Http\Controllers\BaseApiController;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
-use App\Repositories\Wagon\EventRepositoryInterface;
+use App\Repositories\Event\EventRepositoryInterface;
 use App\Services\AdvancedSearchFields\AdvancedSearchFieldsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -36,7 +37,8 @@ class EventController extends BaseApiController
      */
     public function store(StoreEventRequest $request)
     {
-        //
+        $event=StoreEventAction::run($request->validated());
+        return $this->successResponse(EventResource::make($event));
     }
 
     /**

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('event_name');
             $table->string('ip_address')->nullable();
             $table->string('user_agent')->nullable();
-            $table->string('platform	')->nullable();
+            $table->string('platform')->nullable();
             $table->json('payload')->nullable();
             $table->timestamps();
         });
